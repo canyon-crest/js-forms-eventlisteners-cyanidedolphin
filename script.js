@@ -28,6 +28,13 @@
 //            using .innerHTML
 //
 //         Example: "hello" → "HELLO!"
+const btnShout = document.getElementById("btnShout");
+
+btnShout.addEventListener("click", function () {
+    const text = document.getElementById("shoutInput").value;
+    const result = text.toUpperCase() + "!";
+    document.getElementById("outShout").innerHTML = result;
+});
 
 
 // ============================================
@@ -73,7 +80,53 @@
 //      Use .toFixed(2) to format the total.
 //      Example: "Alice, your total is $13.50"
 //      If name is empty, use "Customer" as the default.
+const btnCalc = document.getElementById("btnCalc");
 
+btnCalc.addEventListener("click", function () {
+    const sizes = document.getElementsByName("rg");
+    let sizePrice = 0;
+
+    for (let i = 0; i < sizes.length; i++) {
+        if (sizes[i].checked) {
+            sizePrice = parseFloat(sizes[i].value);
+        }
+    }
+
+    const toppings = document.getElementsByName("cb");
+    let toppingCount = 0;
+
+    for (let i = 0; i < toppings.length; i++) {
+        if (toppings[i].checked) {
+            toppingCount++;
+        }
+    }
+
+    const toppingPrice = toppingCount * 0.50;
+
+    const service = document.getElementById("serviceSelect").value;
+    let serviceFee;
+
+    if (service === "dinein") {
+        serviceFee = 0;
+    } else if (service === "takeout") {
+        serviceFee = 1.50;
+    } else if (service === "delivery") {
+        serviceFee = 3.00;
+    } else {
+        serviceFee = 0;
+    }
+
+    const total = sizePrice + toppingPrice + serviceFee;
+
+    let name = document.getElementById("myInput").value;
+
+    if (name.trim() === "") {
+        name = "Customer";
+    }
+
+    document.getElementById("myPara").innerHTML =
+        name + ", your total is $" + total.toFixed(2);
+});
 
 // STEP 4: Get the "Clear" button by ID ("clearBtn")
 //         Add a click event listener.
@@ -83,3 +136,19 @@
 //         c) Uncheck ALL topping checkboxes (loop through them)
 //         d) Set the service dropdown value to "dinein"
 //         e) Set the output paragraph innerHTML to ""
+
+const clearBtn = document.getElementById("clearBtn");
+
+clearBtn.addEventListener("click", function () {
+    document.getElementById("myInput").value = "";
+    document.getElementById("r3").checked = true;
+
+    const toppings = document.getElementsByName("cb");
+
+    for (let i = 0; i < toppings.length; i++) {
+        toppings[i].checked = false;
+    }
+
+    document.getElementById("serviceSelect").value = "dinein";
+    document.getElementById("myPara").innerHTML = "";
+});
